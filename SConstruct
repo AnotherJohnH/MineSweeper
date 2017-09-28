@@ -2,7 +2,7 @@
 source  = ['Source/mines.cpp']
 binary  = 'mines'
 app     = 'mines'
-version = '0.0.0'
+version = '0.0.1'
 
 # Get a build environment
 env = SConscript('Platform/Source/build.scons', ['source', 'app', 'version'])
