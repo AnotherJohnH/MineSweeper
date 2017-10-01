@@ -41,7 +41,7 @@ private:
    {
       switch(level)
       {
-      case 1: return MineSweeperGUI<10,10>(10).eventLoop();
+      case 1: return MineSweeperGUI< 9, 9>(10).eventLoop();
       case 2: return MineSweeperGUI<16,16>(40).eventLoop();
       case 3: return MineSweeperGUI<30,16>(99).eventLoop();
       }
