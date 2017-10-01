@@ -35,9 +35,17 @@
 class MinesApp : public STB::ConsoleApp
 {
 private:
+   STB::Option<unsigned>   level{'l', "level", "Level of difficulty [1..3]", 1};
+
    virtual int startConsoleApp() override
    {
-      MineSweeperGUI<10,10,10>().eventLoop();;
+      switch(level)
+      {
+      case 1: return MineSweeperGUI<10,10>(10).eventLoop();
+      case 2: return MineSweeperGUI<16,16>(40).eventLoop();
+      case 3: return MineSweeperGUI<30,16>(99).eventLoop();
+      }
+
       return 0;
    }
 

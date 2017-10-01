@@ -32,7 +32,7 @@ enum Progress { READY, UNDERWAY, FAIL, SUCCESS };
 enum State    { UNDUG, FLAG, HOLE, EXPLOSION };
 
 
-//! Mine sweepr game
+//! Mine sweeper game
 template <unsigned WIDTH, unsigned HEIGHT>
 class Game
 {
@@ -45,10 +45,13 @@ public:
 
    Progress getProgress() const      { return progress; }
 
+   //! Number of available flags
    unsigned getNumberOfFlags() const { return number_of_flags; }
 
+   //! Number of ticks that the game has been underway
    unsigned getNumberOfTicks() const { return number_of_ticks; }
 
+   //! State of plot at the given location
    State getPlotState(unsigned x, unsigned y, bool& mine) const
    {
       const Plot* p = getPlot(x, y);
@@ -56,6 +59,7 @@ public:
       return p->state;
    }
 
+   //! Total number of mines adjacent to the given location
    unsigned getNumberOfAdjacentMines(signed x, signed y) const
    {
       unsigned count = 0;
@@ -228,14 +232,14 @@ private:
 
    Plot* getPlot(signed x, signed y)
    {
-      if ((x<0) || (x>=WIDTH) || (y<0) || (y>=WIDTH)) return nullptr;
+      if ((x<0) || (x>=WIDTH) || (y<0) || (y>=HEIGHT)) return nullptr;
 
       return &plot[x][y];
    }
 
    const Plot* getPlot(signed x, signed y) const
    {
-      if ((x<0) || (x>=WIDTH) || (y<0) || (y>=WIDTH)) return nullptr;
+      if ((x<0) || (x>=WIDTH) || (y<0) || (y>=HEIGHT)) return nullptr;
 
       return &plot[x][y];
    }

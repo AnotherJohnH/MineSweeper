@@ -23,13 +23,15 @@
 #ifndef MINE_SWEEPER_GUI_H
 #define MINE_SWEEPER_GUI_H
 
+#include  <cassert>
+
 #include  "PLT/Gui.h"
 #include  "GUI/Font/Teletext15.h"
 
 #include  "MineSweeperGame.h"
 
 
-template <unsigned GAME_COLS, unsigned GAME_ROWS, unsigned GAME_MINES>
+template <unsigned GAME_COLS, unsigned GAME_ROWS>
 class MineSweeperGUI : public PLT::Gui
 {
 private:
@@ -142,6 +144,7 @@ private:
 
                   switch(n)
                   {
+                  case 0: fg = 0x000000; break;
                   case 1: fg = 0x0000C0; break;
                   case 2: fg = 0x008000; break;
                   case 3: fg = 0xC00000; break;
@@ -150,7 +153,7 @@ private:
                   case 6: fg = 0x008080; break;
                   case 7: fg = 0x000000; break;
                   case 8: fg = 0x808080; break;
-                  default: break;
+                  default: assert(!"Not possible"); break;
                   }
                }
                b->setSelect(true);
@@ -170,7 +173,7 @@ private:
    }
 
 public:
-   MineSweeperGUI()
+   MineSweeperGUI(unsigned num_mines)
       : PLT::Gui("Mine Sweeper", &GUI::font_teletext15)
       , gui_menu(this)
       , gui_help(&gui_menu, EV_HELP, "Help")
@@ -180,7 +183,7 @@ public:
       , gui_flags(&gui_top, 1, 3, "")
       , gui_reset(&gui_top, EV_RESET, " X ")
       , gui_time(&gui_top, 1, 3, "")
-      , game(GAME_MINES)
+      , game(num_mines)
    {
       gui_top.setAlign(GUI::CENTER, GUI::CENTER);
 
