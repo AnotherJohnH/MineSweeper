@@ -126,6 +126,8 @@ public:
       {
          plot->state = FLAG;
          --number_of_flags;
+
+         checkForSuccess();
       }
       else if (plot->state == FLAG)
       {
@@ -158,10 +160,8 @@ public:
       else
       {
          tryDig(x, y);
-         if ((number_of_holes + number_of_mines - number_of_flags) == (WIDTH * HEIGHT))
-         {
-            progress = SUCCESS;
-         }
+
+         checkForSuccess();
       }
    }
 
@@ -187,6 +187,14 @@ private:
    unsigned  number_of_ticks;
    Progress  progress;
    Plot      plot[WIDTH][HEIGHT];
+
+   void checkForSuccess()
+   {
+      if ((number_of_holes + number_of_mines - number_of_flags) == (WIDTH * HEIGHT))
+      {
+         progress = SUCCESS;
+      }
+   }
 
    void tryDig(signed x, signed y)
    {
