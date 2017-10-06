@@ -1,15 +1,9 @@
 
 os:
   - linux
-  - osx
 
 dist: trusty
 sudo: required
-
-addons:
-  apt:
-    packages:
-    - libsdl2-dev
 
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
@@ -21,6 +15,26 @@ language: cpp
 script: scons
 
 compiler:
-    - clang
     - gcc
 
+env:
+  global:
+   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+   #   via the "travis encrypt" command using the project repo's public key
+   - secure: "VNjSD+as8Z21sKXRlwYT51TUx4u9/2DSYBSi5XEsToU6NtEBWviSmBbwrxehUxVy7MENH2OU75rIjUgpMYSi/Ri/StwwHe5oI65abS/c6wxfXlc9haqalSY6A+LQHwBs7GKCId2M5XTuLGQ+IWnQ2xg1/gaHzThQzG38DFc+a+rPCPVuv+pz6DrQwrdwJioSA0cLN7YMX2VBkzn9bd87ba7PIveZ3r8Gm/4cN6MZSM5cMvs6+tKuxVN2kl2XCWs5XVoZf2bhqlSAi9nyyUQY/8VNZq6lnMkeleyqdbSCu5NGHVNPWMR0M61EISc/fk3/aaSH8i+w9GN6B2JY8e/YTAkDZ1SX2UFJOEv0C6qfmT3HkBAiUSLU5REubsCWPLnqUTzR9OwkNu9qI58mujuzqaT6FphZn4hCAvU+dHTXJYgsPlUBkpC2mCUGTL6i7oN/nxAP3/0B0eKPcqqHYiXpB5G6CPasFxS4cIxFegQhiLPWaWdX0Ei7Qz1rJiwweYEfhXb8fi+aNQC7CvSF8pMlSMVLMpSC/IRBnJXy4nJNq3KHrkH1DJ9entvA2DJ5tIzYyyT8y4faiGTojvoBXzFjsFXQ4HgM+0eWH7QSuhpkcXshWo0ox39gK1b9jH4qQusafH0IKqjJp35FciOeZOYlUm6a1FmKdq6+QlQFPirALdI="
+
+before_install:
+      - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
+
+addons:
+  apt:
+    packages:
+    - libsdl2-dev
+  coverity_scan:
+    project:
+      name: "AnotherJohnH/MineSweeper"
+      description: "Build submitted via Travis CI"
+    notification_email: anotherjohnh@gmail.com
+    build_command_prepend: ""
+    build_command: "scons"
+    branch_pattern: coverity_scan
