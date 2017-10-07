@@ -26,7 +26,7 @@
 #include  <cassert>
 
 #include  "PLT/Gui.h"
-#include  "GUI/Font/Teletext15.h"
+#include  "GUI/Font/Teletext.h"
 
 #include  "MineSweeperGame.h"
 
