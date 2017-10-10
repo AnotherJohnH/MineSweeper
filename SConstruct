@@ -8,7 +8,7 @@ version = '0.0.1'
 env = SConscript('Platform/Source/build.scons', ['source', 'app', 'version'])
 
 # Project specific build config
-env.Append(CCFLAGS = ['-g', '-O3'])
+env.Append(CCFLAGS = ['-O3'])
 
 # Builders
 exe = env.Program(binary, source)
