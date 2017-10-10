@@ -1,8 +1,10 @@
-# Mine Sweepr
+# Mine Sweeper
 
 A game from the past.
 
 Mainly intended as an example use of the GUI API.
+
+[![Web Site](https://anotherjohnh.github.io/MineSweeper/)
 
 ## Status
 
