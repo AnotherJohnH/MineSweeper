@@ -4,7 +4,7 @@ A game from the past.
 
 Mainly intended as an example use of the GUI API.
 
-[![Web Site]](https://anotherjohnh.github.io/MineSweeper/)
+[Give it a go](https://anotherjohnh.github.io/MineSweeper/mines.html)
 
 ## Status
 
