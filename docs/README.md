@@ -1,10 +1,9 @@
 # Mine Sweeper
 
-A game from the past.
+A game from the past. This version is intended as an example of the use of the
+[Platform](https://github.com/AnotherJohnH/Platform) GUI C++ API.
 
-Mainly intended as an example use of the GUI API.
-
-[Give it a go](https://anotherjohnh.github.io/MineSweeper/mines.html)
+Try a browser hosted version of the application [here](https://anotherjohnh.github.io/MineSweeper/mines.html)
 
 ## Status
 
