@@ -23,12 +23,12 @@
 #ifndef MINE_SWEEPER_GUI_H
 #define MINE_SWEEPER_GUI_H
 
-#include  <cassert>
+#include <cassert>
 
-#include  "PLT/Gui.h"
-#include  "GUI/Font/Teletext.h"
+#include "GUI/Font/Teletext.h"
+#include "PLT/Gui.h"
 
-#include  "MineSweeperGame.h"
+#include "MineSweeperGame.h"
 
 
 template <unsigned GAME_COLS, unsigned GAME_ROWS>
@@ -45,28 +45,28 @@ private:
    static const unsigned EV_TICK  = 3;
 
    // GUI components
-   GUI::Row           gui_menu;
-   GUI::TextButton    gui_help;
-   GUI::Bar           gui_bar;
-   GUI::Row           gui_top;
-   GUI::Col           gui_btm;
-   GUI::Field         gui_flags;
-   GUI::TextButton    gui_reset;
-   GUI::Field         gui_time;
-   GUI::TextButton*   gui_btn[GAME_COLS][GAME_ROWS];
+   GUI::Row         gui_menu;
+   GUI::TextButton  gui_help;
+   GUI::Bar         gui_bar;
+   GUI::Row         gui_top;
+   GUI::Col         gui_btm;
+   GUI::Field       gui_flags;
+   GUI::TextButton  gui_reset;
+   GUI::Field       gui_time;
+   GUI::TextButton* gui_btn[GAME_COLS][GAME_ROWS];
 
    // Game state
-   MineSweeper::Game<GAME_COLS,GAME_ROWS>   game;
+   MineSweeper::Game<GAME_COLS, GAME_ROWS> game;
 
 
    //! Handle events from the GUI
    virtual void appEvent(Widget*, unsigned code) override
    {
-      if (code == EV_RESET)
+      if(code == EV_RESET)
       {
          game.reset();
       }
-      else if (code == EV_TICK)
+      else if(code == EV_TICK)
       {
          game.tick();
       }
@@ -75,11 +75,11 @@ private:
          unsigned x = (code >> EV_X_LSB) & 0xFF;
          unsigned y = (code >> EV_Y_LSB) & 0xFF;
 
-         if (code & EV_FLAG)
+         if(code & EV_FLAG)
          {
             game.plantUnplantFlag(x, y);
          }
-         else if (code & EV_DIG)
+         else if(code & EV_DIG)
          {
             game.digHole(x, y);
          }
@@ -108,14 +108,14 @@ private:
       case MineSweeper::SUCCESS:  gui_reset.text.setText(":-)"); break;
       }
 
-      for(unsigned y=0; y<GAME_ROWS; ++y)
+      for(unsigned y = 0; y < GAME_ROWS; ++y)
       {
-         for(unsigned x=0; x<GAME_COLS; ++x)
+         for(unsigned x = 0; x < GAME_COLS; ++x)
          {
             GUI::TextButton* b = gui_btn[x][y];
 
-            GUI::Colour  fg = GUI::FOREGROUND;
-            GUI::Colour  bg = GUI::FACE;
+            GUI::Colour fg = GUI::FOREGROUND;
+            GUI::Colour bg = GUI::FACE;
 
             bool mine;
 
@@ -132,7 +132,7 @@ private:
                break;
 
             case MineSweeper::HOLE:
-               if (mine)
+               if(mine)
                {
                   b->text.setText('*');
                }
@@ -190,14 +190,14 @@ public:
       gui_help.setFlat();
 
       // Construct the minefield
-      for(unsigned y=0; y<GAME_ROWS; ++y)
+      for(unsigned y = 0; y < GAME_ROWS; ++y)
       {
          GUI::Row* row = new GUI::Row(&gui_btm);
          row->setAutoDelete();
 
-         for(unsigned x=0; x<GAME_COLS; ++x)
+         for(unsigned x = 0; x < GAME_COLS; ++x)
          {
-            unsigned code = (y<<EV_Y_LSB) | (x<<EV_X_LSB);
+            unsigned code = (y << EV_Y_LSB) | (x << EV_X_LSB);
 
             GUI::TextButton* b = new GUI::TextButton(row, EV_DIG | code, " ");
             b->setAutoDelete();

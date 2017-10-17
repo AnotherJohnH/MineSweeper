@@ -43,7 +43,7 @@ public:
       reset();
    }
 
-   Progress getProgress() const      { return progress; }
+   Progress getProgress() const { return progress; }
 
    //! Number of available flags
    unsigned getNumberOfFlags() const { return number_of_flags; }
@@ -55,7 +55,7 @@ public:
    State getPlotState(unsigned x, unsigned y, bool& mine) const
    {
       const Plot* p = getPlot(x, y);
-      mine = p->mine;
+      mine          = p->mine;
       return p->state;
    }
 
@@ -64,12 +64,12 @@ public:
    {
       unsigned count = 0;
 
-      for(signed scan_y = y-1; scan_y <= (y + 1); ++scan_y)
+      for(signed scan_y = y - 1; scan_y <= (y + 1); ++scan_y)
       {
-         for(signed scan_x = x-1; scan_x <= (x + 1); ++scan_x)
+         for(signed scan_x = x - 1; scan_x <= (x + 1); ++scan_x)
          {
             const Plot* plot = getPlot(scan_x, scan_y);
-            if (plot && plot->mine) ++count;
+            if(plot && plot->mine) ++count;
          }
       }
 
@@ -79,9 +79,9 @@ public:
    //! Reset ready for new game
    void reset()
    {
-      for(unsigned y=0; y<HEIGHT; ++y)
+      for(unsigned y = 0; y < HEIGHT; ++y)
       {
-         for(unsigned x=0; x<WIDTH; ++x)
+         for(unsigned x = 0; x < WIDTH; ++x)
          {
             Plot* plot = getPlot(x, y);
 
@@ -90,13 +90,13 @@ public:
          }
       }
 
-      for(unsigned i=0; i<number_of_mines; ++i)
+      for(unsigned i = 0; i < number_of_mines; ++i)
       {
          unsigned x = rand() % WIDTH;
          unsigned y = rand() % HEIGHT;
 
          Plot* plot = getPlot(x, y);
-         if (plot->mine)
+         if(plot->mine)
          {
             --i;
          }
@@ -116,20 +116,20 @@ public:
    //! Plant or unplant a flag in an undug plot
    void plantUnplantFlag(unsigned x, unsigned y)
    {
-      if (progress != UNDERWAY)
+      if(progress != UNDERWAY)
       {
          return;
       }
 
       Plot* plot = getPlot(x, y);
-      if ((plot->state == UNDUG) && (number_of_flags > 0))
+      if((plot->state == UNDUG) && (number_of_flags > 0))
       {
          plot->state = FLAG;
          --number_of_flags;
 
          checkForSuccess();
       }
-      else if (plot->state == FLAG)
+      else if(plot->state == FLAG)
       {
          plot->state = UNDUG;
          ++number_of_flags;
@@ -139,19 +139,19 @@ public:
    //! Dig a hole in an undug plot
    void digHole(unsigned x, unsigned y)
    {
-      if (progress == READY)
+      if(progress == READY)
       {
          progress = UNDERWAY;
       }
-      else if (progress != UNDERWAY)
+      else if(progress != UNDERWAY)
       {
          return;
       }
 
       Plot* plot = getPlot(x, y);
-      if (plot->state != UNDUG) return;
+      if(plot->state != UNDUG) return;
 
-      if (plot->mine)
+      if(plot->mine)
       {
          plot->state = EXPLOSION;
          showMines();
@@ -168,7 +168,7 @@ public:
    //! Increment game timer
    void tick()
    {
-      if (progress == UNDERWAY)
+      if(progress == UNDERWAY)
       {
          ++number_of_ticks;
       }
@@ -177,20 +177,20 @@ public:
 private:
    struct Plot
    {
-      State  state;
-      bool   mine;
+      State state;
+      bool  mine;
    };
 
-   unsigned  number_of_mines;
-   unsigned  number_of_flags;
-   unsigned  number_of_holes;
-   unsigned  number_of_ticks;
-   Progress  progress;
-   Plot      plot[WIDTH][HEIGHT];
+   unsigned number_of_mines;
+   unsigned number_of_flags;
+   unsigned number_of_holes;
+   unsigned number_of_ticks;
+   Progress progress;
+   Plot     plot[WIDTH][HEIGHT];
 
    void checkForSuccess()
    {
-      if ((number_of_holes + number_of_mines - number_of_flags) == (WIDTH * HEIGHT))
+      if((number_of_holes + number_of_mines - number_of_flags) == (WIDTH * HEIGHT))
       {
          progress = SUCCESS;
       }
@@ -199,14 +199,14 @@ private:
    void tryDig(signed x, signed y)
    {
       Plot* plot = getPlot(x, y);
-      if (plot)
+      if(plot)
       {
-         if ((plot->state == UNDUG) && !plot->mine)
+         if((plot->state == UNDUG) && !plot->mine)
          {
             plot->state = HOLE;
             ++number_of_holes;
 
-            if (getNumberOfAdjacentMines(x, y) == 0)
+            if(getNumberOfAdjacentMines(x, y) == 0)
             {
                tryDig(x - 1, y - 1);
                tryDig(x,     y - 1);
@@ -225,12 +225,12 @@ private:
 
    void showMines()
    {
-      for(unsigned y=0; y<HEIGHT; ++y)
+      for(unsigned y = 0; y < HEIGHT; ++y)
       {
-         for(unsigned x=0; x<WIDTH; ++x)
+         for(unsigned x = 0; x < WIDTH; ++x)
          {
             Plot* plot = getPlot(x, y);
-            if (plot->mine && (plot->state != EXPLOSION))
+            if(plot->mine && (plot->state != EXPLOSION))
             {
                plot->state = HOLE;
             }
@@ -240,14 +240,14 @@ private:
 
    Plot* getPlot(signed x, signed y)
    {
-      if ((x<0) || (x>=WIDTH) || (y<0) || (y>=HEIGHT)) return nullptr;
+      if((x < 0) || (x >= signed(WIDTH)) || (y < 0) || (y >= signed(HEIGHT))) return nullptr;
 
       return &plot[x][y];
    }
 
    const Plot* getPlot(signed x, signed y) const
    {
-      if ((x<0) || (x>=WIDTH) || (y<0) || (y>=HEIGHT)) return nullptr;
+      if((x < 0) || (x >= signed(WIDTH)) || (y < 0) || (y >= signed(HEIGHT))) return nullptr;
 
       return &plot[x][y];
    }

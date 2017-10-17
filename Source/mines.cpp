@@ -20,9 +20,9 @@
 // SOFTWARE.
 //------------------------------------------------------------------------------
 
-#include  "STB/ConsoleApp.h"
+#include "STB/ConsoleApp.h"
 
-#include  "MineSweeperGUI.h"
+#include "MineSweeperGUI.h"
 
 
 #define  PROGRAM         "Mine Sweeper"
@@ -35,15 +35,15 @@
 class MinesApp : public STB::ConsoleApp
 {
 private:
-   STB::Option<unsigned>   level{'l', "level", "Level of difficulty [1..3]", 1};
+   STB::Option<unsigned> level{'l', "level", "Level of difficulty [1..3]", 1};
 
    virtual int startConsoleApp() override
    {
       switch(level)
       {
-      case 1: return MineSweeperGUI< 9, 9>(10).eventLoop();
-      case 2: return MineSweeperGUI<16,16>(40).eventLoop();
-      case 3: return MineSweeperGUI<30,16>(99).eventLoop();
+      case 1: return MineSweeperGUI<9, 9>(10).eventLoop();
+      case 2: return MineSweeperGUI<16, 16>(40).eventLoop();
+      case 3: return MineSweeperGUI<30, 16>(99).eventLoop();
       }
 
       return 0;
@@ -58,8 +58,4 @@ public:
 };
 
 
-int main(int argc, const char* argv[])
-{
-   MinesApp(argc, argv);
-}
-
+int main(int argc, const char* argv[]) { MinesApp(argc, argv); }
