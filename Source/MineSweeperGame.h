@@ -27,9 +27,21 @@
 
 namespace MineSweeper {
 
-enum Progress { READY, UNDERWAY, FAIL, SUCCESS };
+enum Progress
+{
+   READY,
+   UNDERWAY,
+   FAIL,
+   SUCCESS
+};
 
-enum State    { UNDUG, FLAG, HOLE, EXPLOSION };
+enum State
+{
+   UNDUG,
+   FLAG,
+   HOLE,
+   EXPLOSION
+};
 
 
 //! Mine sweeper game

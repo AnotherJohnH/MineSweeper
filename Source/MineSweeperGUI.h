@@ -58,7 +58,6 @@ private:
    // Game state
    MineSweeper::Game<GAME_COLS, GAME_ROWS> game;
 
-
    //! Handle events from the GUI
    virtual void appEvent(Widget*, unsigned code) override
    {
