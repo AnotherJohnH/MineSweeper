@@ -20,6 +20,8 @@
 // SOFTWARE.
 //------------------------------------------------------------------------------
 
+#include <cstdio>
+
 #include "STB/ConsoleApp.h"
 
 #include "MineSweeperGUI.h"
@@ -32,7 +34,7 @@
 #define  VERSION         PROJ_VERSION
 
 
-class MinesApp : public STB::ConsoleApp
+class MineSweeperApp : public STB::ConsoleApp
 {
 private:
    STB::Option<unsigned> level{'l', "level", "Level of difficulty [1..3]", 1};
@@ -50,7 +52,7 @@ private:
    }
 
 public:
-   MinesApp(int argc, const char* argv[])
+   MineSweeperApp(int argc, const char* argv[])
       : ConsoleApp(PROGRAM, AUTHOR, DESCRIPTION, VERSION, COPYRIGHT_YEAR)
    {
       parseArgsAndStart(argc, argv);
@@ -58,4 +60,7 @@ public:
 };
 
 
-int main(int argc, const char* argv[]) { MinesApp(argc, argv); }
+int main(int argc, const char* argv[])
+{
+   MineSweeperApp(argc, argv);
+}

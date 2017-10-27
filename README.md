@@ -1,4 +1,4 @@
-# Mine Sweeper
+# MineSweeper
 
 A game from the past. This version is intended as an example of the use of the
 [Platform](https://github.com/AnotherJohnH/Platform) GUI C++ API.

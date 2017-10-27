@@ -1,7 +1,7 @@
 
 source  = ['Source/mines.cpp']
 binary  = 'mines'
-app     = 'mines'
+app     = 'MineSweeper'
 version = '0.0.1'
 
 # Get a build environment
