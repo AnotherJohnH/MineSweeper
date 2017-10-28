@@ -31,6 +31,17 @@
 #include "MineSweeperGame.h"
 
 
+// 2 char "Mine" and "Flag" font
+static const uint8_t font_mines_data[] =
+{
+   0x08, 0x00, 0x88, 0x80, 0x5D, 0x00, 0x3E, 0x00, 0x67, 0x00, 0xEF, 0xC0, 0x7F, 0x00, 0x3E, 0x00,
+   0x5D, 0x00, 0x88, 0x80, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+   0x02, 0x00, 0x0E, 0x00, 0x3E, 0x00, 0x7E, 0x00, 0x3E, 0x00, 0x0E, 0x00, 0x02, 0x00, 0x02, 0x00,
+   0x02, 0x00, 0x07, 0x00, 0x3F, 0xC0, 0x3F, 0xC0, 0x00, 0x00, 0x00, 0x00
+};
+static const GUI::Font font_mines = {{10, 15}, 0x30, 0x31, 1, font_mines_data};
+
+
 template <unsigned GAME_COLS, unsigned GAME_ROWS>
 class MineSweeperGUI : public PLT::Gui
 {
@@ -126,17 +137,20 @@ private:
                break;
 
             case MineSweeper::FLAG:
-               b->text.setText('F');
+               b->text.setFont(&font_mines);
+               b->text.setText('1');
                b->setSelect(false);
                break;
 
             case MineSweeper::HOLE:
                if(mine)
                {
-                  b->text.setText('*');
+                  b->text.setFont(&font_mines);
+                  b->text.setText('0');
                }
                else
                {
+                  b->text.setFont(nullptr);
                   unsigned n = game.getNumberOfAdjacentMines(x, y);
 
                   b->text.setText(n == 0 ? ' ' : '0' + n);
@@ -159,7 +173,8 @@ private:
                break;
 
             case MineSweeper::EXPLOSION:
-               b->text.setText('*');
+               b->text.setFont(&font_mines);
+               b->text.setText('0');
                bg = 0xE00000;
                break;
             }
