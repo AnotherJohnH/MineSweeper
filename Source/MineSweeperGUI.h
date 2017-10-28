@@ -28,6 +28,7 @@
 #include "GUI/Font/Teletext.h"
 #include "PLT/Gui.h"
 
+#include "LEDDisplay.h"
 #include "MineSweeperGame.h"
 
 
@@ -61,9 +62,9 @@ private:
    GUI::Bar         gui_bar;
    GUI::Row         gui_top;
    GUI::Col         gui_btm;
-   GUI::Field       gui_flags;
+   LEDDisplay       gui_flags;
    GUI::TextButton  gui_reset;
-   GUI::Field       gui_time;
+   LEDDisplay       gui_time;
    GUI::TextButton* gui_btn[GAME_COLS][GAME_ROWS];
 
    // Game state
@@ -105,10 +106,10 @@ private:
       char text[4];
 
       sprintf(text, "%3d", game.getNumberOfFlags());
-      gui_flags.setValue(text);
+      gui_flags.setText(text);
 
       sprintf(text, "%3d", game.getNumberOfTicks());
-      gui_time.setValue(text);
+      gui_time.setText(text);
 
       switch(game.getProgress())
       {
@@ -194,9 +195,9 @@ public:
       , gui_bar(this)
       , gui_top(this, 8)
       , gui_btm(this, 0)
-      , gui_flags(&gui_top, 1, 3, "")
+      , gui_flags(&gui_top, 3)
       , gui_reset(&gui_top, EV_RESET, " X ")
-      , gui_time(&gui_top, 1, 3, "")
+      , gui_time(&gui_top, 3)
       , game(num_mines)
    {
       gui_top.setAlign(GUI::CENTER, GUI::CENTER);
@@ -217,7 +218,8 @@ public:
             b->setAutoDelete();
 
             b->setAltCode(false, EV_FLAG | code);
-            b->text.setWidth(2);
+            b->text.setCols(2);
+            b->text.setAlign(GUI::CENTER);
 
             gui_btn[x][y] = b;
          }
