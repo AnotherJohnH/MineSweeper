@@ -24,7 +24,7 @@
 #define LED_DISPLAY_H
 
 #include "GUI/Font/LED.h"
-#include "PLT/Gui.h"
+#include "GUI/GUI.h"
 
 class LEDDisplay : public GUI::Text
 {

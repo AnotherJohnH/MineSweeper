@@ -26,7 +26,7 @@
 #include <cassert>
 
 #include "GUI/Font/Teletext.h"
-#include "PLT/Gui.h"
+#include "GUI/Frame.h"
 
 #include "LEDDisplay.h"
 #include "MineSweeperGame.h"
@@ -44,7 +44,7 @@ static const GUI::Font font_mines = {{10, 15}, 0x30, 0x31, 1, font_mines_data};
 
 
 template <unsigned GAME_COLS, unsigned GAME_ROWS>
-class MineSweeperGUI : public PLT::Gui
+class MineSweeperGUI : public GUI::Frame
 {
 private:
    // Event code fields
@@ -66,6 +66,9 @@ private:
    GUI::TextButton  gui_reset;
    LEDDisplay       gui_time;
    GUI::TextButton* gui_btn[GAME_COLS][GAME_ROWS];
+
+   char             text_flags[4];
+   char             text_time[4];
 
    // Game state
    MineSweeper::Game<GAME_COLS, GAME_ROWS> game;
@@ -103,13 +106,11 @@ private:
    //! Refresh the GUI state
    void refresh()
    {
-      char text[4];
+      sprintf(text_flags, "%3d", game.getNumberOfFlags());
+      gui_flags.setText(text_flags);
 
-      sprintf(text, "%3d", game.getNumberOfFlags());
-      gui_flags.setText(text);
-
-      sprintf(text, "%3d", game.getNumberOfTicks());
-      gui_time.setText(text);
+      sprintf(text_time, "%3d", game.getNumberOfTicks());
+      gui_time.setText(text_time);
 
       switch(game.getProgress())
       {
@@ -133,13 +134,13 @@ private:
             switch(game.getPlotState(x, y, mine))
             {
             case MineSweeper::UNDUG:
-               b->text.setText(' ');
+               b->text.setText(" ");
                b->setSelect(false);
                break;
 
             case MineSweeper::FLAG:
                b->text.setFont(&font_mines);
-               b->text.setText('1');
+               b->text.setText("1");
                b->setSelect(false);
                break;
 
@@ -147,26 +148,24 @@ private:
                if(mine)
                {
                   b->text.setFont(&font_mines);
-                  b->text.setText('0');
+                  b->text.setText("0");
                }
                else
                {
                   b->text.setFont(nullptr);
                   unsigned n = game.getNumberOfAdjacentMines(x, y);
 
-                  b->text.setText(n == 0 ? ' ' : '0' + n);
-
                   switch(n)
                   {
-                  case 0: fg = 0x000000; break;
-                  case 1: fg = 0x0000C0; break;
-                  case 2: fg = 0x008000; break;
-                  case 3: fg = 0xC00000; break;
-                  case 4: fg = 0x000040; break;
-                  case 5: fg = 0x400000; break;
-                  case 6: fg = 0x008080; break;
-                  case 7: fg = 0x000000; break;
-                  case 8: fg = 0x808080; break;
+                  case 0: fg = 0x000000; b->text.setText(" "); break;
+                  case 1: fg = 0x0000C0; b->text.setText("1"); break;
+                  case 2: fg = 0x008000; b->text.setText("2"); break;
+                  case 3: fg = 0xC00000; b->text.setText("3"); break;
+                  case 4: fg = 0x000040; b->text.setText("4"); break;
+                  case 5: fg = 0x400000; b->text.setText("5"); break;
+                  case 6: fg = 0x008080; b->text.setText("6"); break;
+                  case 7: fg = 0x000000; b->text.setText("7"); break;
+                  case 8: fg = 0x808080; b->text.setText("8"); break;
                   default: assert(!"Not possible"); break;
                   }
                }
@@ -175,7 +174,7 @@ private:
 
             case MineSweeper::EXPLOSION:
                b->text.setFont(&font_mines);
-               b->text.setText('0');
+               b->text.setText("0");
                bg = 0xE00000;
                break;
             }
@@ -189,7 +188,7 @@ private:
 
 public:
    MineSweeperGUI(unsigned num_mines)
-      : PLT::Gui("Mine Sweeper", &GUI::font_teletext15)
+      : GUI::Frame("Mine Sweeper", &GUI::font_teletext15)
       , gui_menu(this)
       , gui_help(&gui_menu, EV_HELP, "Help")
       , gui_bar(this)
