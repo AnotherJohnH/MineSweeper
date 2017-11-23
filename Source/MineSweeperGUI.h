@@ -26,7 +26,7 @@
 #include <cassert>
 
 #include "GUI/Font/Teletext.h"
-#include "GUI/Frame.h"
+#include "GUI/App.h"
 
 #include "LEDDisplay.h"
 #include "MineSweeperGame.h"
@@ -44,7 +44,7 @@ static const GUI::Font font_mines = {{10, 15}, 0x30, 0x31, 1, font_mines_data};
 
 
 template <unsigned GAME_COLS, unsigned GAME_ROWS>
-class MineSweeperGUI : public GUI::Frame
+class MineSweeperGUI : public GUI::App
 {
 private:
    // Event code fields
@@ -188,7 +188,7 @@ private:
 
 public:
    MineSweeperGUI(unsigned num_mines)
-      : GUI::Frame("Mine Sweeper", &GUI::font_teletext15)
+      : GUI::App("Mine Sweeper", &GUI::font_teletext15)
       , gui_menu(this)
       , gui_help(&gui_menu, EV_HELP, "Help")
       , gui_bar(this)
