@@ -65,7 +65,8 @@ private:
    LEDDisplay       gui_flags;
    GUI::TextButton  gui_reset;
    LEDDisplay       gui_time;
-   GUI::TextButton* gui_btn[GAME_COLS][GAME_ROWS];
+   GUI::Row         gui_row[GAME_ROWS];
+   GUI::TextButton  gui_btn[GAME_COLS][GAME_ROWS];
 
    char             text_flags[4];
    char             text_time[4];
@@ -124,7 +125,7 @@ private:
       {
          for(unsigned x = 0; x < GAME_COLS; ++x)
          {
-            GUI::TextButton* b = gui_btn[x][y];
+            GUI::TextButton* b = &gui_btn[x][y];
 
             GUI::Colour fg = GUI::FOREGROUND;
             GUI::Colour bg = GUI::FACE;
@@ -206,21 +207,21 @@ public:
       // Construct the minefield
       for(unsigned y = 0; y < GAME_ROWS; ++y)
       {
-         GUI::Row* row = new GUI::Row(&gui_btm);
-         row->setAutoDelete();
+         gui_btm.pushBack(&gui_row[y]);
 
          for(unsigned x = 0; x < GAME_COLS; ++x)
          {
             unsigned code = (y << EV_Y_LSB) | (x << EV_X_LSB);
 
-            GUI::TextButton* b = new GUI::TextButton(row, EV_DIG | code, " ");
-            b->setAutoDelete();
+            GUI::TextButton* b = &gui_btn[x][y];
 
+            gui_row[y].pushBack(b);
+
+            b->setCode(EV_DIG | code);
             b->setAltCode(false, EV_FLAG | code);
+            b->text.setText(" ");
             b->text.setCols(2);
             b->text.setAlign(GUI::CENTER);
-
-            gui_btn[x][y] = b;
          }
       }
 

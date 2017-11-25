@@ -37,7 +37,7 @@
 class MineSweeperApp : public STB::ConsoleApp
 {
 private:
-   STB::Option<unsigned> level{'l', "level", "Level of difficulty [1..3]", 1};
+   STB::Option<uint32_t> level{'l', "level", "Level of difficulty [1..3]", 1};
 
    virtual int startConsoleApp() override
    {
