@@ -27,7 +27,7 @@
 
 namespace MineSweeper {
 
-enum Progress
+enum Progress : uint8_t
 {
    READY,
    UNDERWAY,
@@ -35,7 +35,7 @@ enum Progress
    SUCCESS
 };
 
-enum State
+enum State : uint8_t
 {
    UNDUG,
    FLAG,
@@ -193,11 +193,11 @@ private:
       bool  mine;
    };
 
-   unsigned number_of_mines;
-   unsigned number_of_flags;
-   unsigned number_of_holes;
-   unsigned number_of_ticks;
    Progress progress;
+   uint16_t number_of_mines;
+   uint16_t number_of_flags;
+   uint16_t number_of_holes;
+   uint32_t number_of_ticks;
    Plot     plot[WIDTH][HEIGHT];
 
    void checkForSuccess()
