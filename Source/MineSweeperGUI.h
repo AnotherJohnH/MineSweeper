@@ -127,8 +127,8 @@ private:
          {
             GUI::TextButton* b = &gui_btn[x][y];
 
-            GUI::Colour fg = GUI::FOREGROUND;
-            GUI::Colour bg = GUI::FACE;
+            STB::Colour fg = GUI::FOREGROUND;
+            STB::Colour bg = GUI::FACE;
 
             bool mine;
 
