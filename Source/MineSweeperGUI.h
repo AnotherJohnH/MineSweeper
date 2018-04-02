@@ -200,7 +200,7 @@ public:
       , gui_time(&gui_top, 3)
       , game(num_mines)
    {
-      gui_top.setAlign(GUI::CENTER, GUI::CENTER);
+      gui_top.setAlign(GUI::Align::CENTER, GUI::Align::CENTER);
 
       gui_help.setFlat();
 
@@ -221,7 +221,7 @@ public:
             b->setAltCode(false, EV_FLAG | code);
             b->text.setText(" ");
             b->text.setCols(2);
-            b->text.setAlign(GUI::CENTER);
+            b->text.setAlign(GUI::Align::CENTER);
          }
       }
 

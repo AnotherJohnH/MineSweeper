@@ -29,9 +29,10 @@
 
 #define  PROGRAM         "Mine Sweeper"
 #define  DESCRIPTION     "An old game"
-#define  COPYRIGHT_YEAR  "2016"
+#define  LINK            "https://github.com/AnotherJohnH/Platform"
 #define  AUTHOR          "John D. Haughton"
 #define  VERSION         PROJ_VERSION
+#define  COPYRIGHT_YEAR  "2016"
 
 
 class MineSweeperApp : public STB::ConsoleApp
@@ -56,7 +57,7 @@ private:
 
 public:
    MineSweeperApp(int argc, const char* argv[])
-      : ConsoleApp(PROGRAM, AUTHOR, DESCRIPTION, VERSION, COPYRIGHT_YEAR)
+      : ConsoleApp(PROGRAM, DESCRIPTION, LINK, AUTHOR, VERSION, COPYRIGHT_YEAR)
    {
       parseArgsAndStart(argc, argv);
    }
