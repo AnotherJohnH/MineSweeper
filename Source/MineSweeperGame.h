@@ -32,10 +32,10 @@ namespace MineSweeper {
 
 enum Progress : uint8_t
 {
-   READY,
-   UNDERWAY,
-   FAIL,
-   SUCCESS
+   RESET,
+   CLEARING,
+   DETONATED,
+   CLEARED
 };
 
 enum State : uint8_t
@@ -58,8 +58,8 @@ public:
       reset();
    }
 
-   //! Game state
-   Progress getProgress() const { return progress; }
+   //! Return current game state
+   Progress getProgress() const { return status; }
 
    //! Number of available flags
    unsigned getNumberOfFlags() const { return number_of_flags; }
@@ -70,9 +70,7 @@ public:
    //! State of plot at the given location
    State getPlotState(unsigned x, unsigned y, bool& mine) const
    {
-      const Plot& p = getPlot(x, y);
-      mine          = p.mine;
-      return p.state;
+      return getPlot(x, y).getState(mine);
    }
 
    //! Total number of mines adjacent to the given location
@@ -88,7 +86,7 @@ public:
              scan_x <= std::min(x + 1, signed(WIDTH - 1));
              ++scan_x)
          {
-            if(getPlot(scan_x, scan_y).mine) ++count;
+            if(getPlot(scan_x, scan_y).isMined()) ++count;
          }
       }
 
@@ -102,103 +100,160 @@ public:
       {
          for(auto& plot : column)
          {
-            plot.state = UNDUG;
-            plot.mine  = false;
+            plot.reset();
          }
       }
 
-      for(unsigned i = 0; i < number_of_mines; ++i)
+      for(unsigned planted = 0; planted < number_of_mines;)
       {
          unsigned x = rand() % WIDTH;
          unsigned y = rand() % HEIGHT;
 
-         Plot& plot = getPlot(x, y);
-         if(plot.mine)
+         if(getPlot(x,y).plantMine())
          {
-            --i;
-         }
-         else
-         {
-            plot.mine = true;
+            planted++;
          }
       }
 
       number_of_flags = number_of_mines;
       number_of_holes = 0;
       number_of_ticks = 0;
-      progress        = READY;
+      status        = RESET;
    }
-
 
    //! Plant or unplant a flag in an undug plot
    void plantUnplantFlag(unsigned x, unsigned y)
    {
-      if(progress != UNDERWAY)
+      if(status != CLEARING)
       {
          return;
       }
 
-      Plot& plot = getPlot(x, y);
-      if((plot.state == UNDUG) && (number_of_flags > 0))
+      if (getPlot(x, y).toggleFlag(number_of_flags))
       {
-         plot.state = FLAG;
-         --number_of_flags;
-
-         checkForSuccess();
-      }
-      else if(plot.state == FLAG)
-      {
-         plot.state = UNDUG;
-         ++number_of_flags;
+         checkIfCleared();
       }
    }
 
    //! Dig a hole in an undug plot
    void digHole(unsigned x, unsigned y)
    {
-      if(progress == READY)
+      Plot& plot = getPlot(x, y);
+
+      if(status == RESET)
       {
-         progress = UNDERWAY;
+         while(!plot.startDig())
+         {
+            // re-plant if the first dig fails
+            reset();
+         }
+
+         tryDig(x, y);
+         status = CLEARING;
+         return;
       }
-      else if(progress != UNDERWAY)
+      else if(status != CLEARING)
       {
          return;
       }
 
-      Plot& plot = getPlot(x, y);
-      if(plot.state != UNDUG) return;
+      if(!plot.isUndug()) return;
 
-      if(plot.mine)
+      if(plot.startDig())
       {
-         plot.state = EXPLOSION;
-         showMines();
-         progress = FAIL;
+         tryDig(x, y);
+         checkIfCleared();
       }
       else
       {
-         tryDig(x, y);
-
-         checkForSuccess();
+         showMines();
+         status = DETONATED;
       }
    }
 
    //! Increment game timer
    void tick()
    {
-      if(progress == UNDERWAY)
+      if(status == CLEARING)
       {
          ++number_of_ticks;
       }
    }
 
 private:
-   struct Plot
+   class Plot
    {
+   public:
+      bool  isUndug() const { return state == UNDUG; }
+      bool  isMined() const { return mine; }
+
+      State getState(bool& mine_) const
+      {
+         mine_ = mine;
+         return state;
+      }
+
+      //! Reset plot of land to undug and empty
+      void reset()
+      {
+         state = UNDUG;
+         mine  = false;
+      }
+
+      //! Plant a mine
+      bool plantMine()
+      {
+         if (mine) return false;
+         mine = true;
+         return true;
+      }
+
+      //! Toggle flag
+      bool toggleFlag(uint16_t& number_of_flags)
+      {
+         if((state == UNDUG) && (number_of_flags > 0))
+         {
+            state = FLAG;
+            --number_of_flags;
+         }
+         else if(state == FLAG)
+         {
+            state = UNDUG;
+            ++number_of_flags;
+         }
+         return state == FLAG;
+      }
+
+      //! Start to Dig a hole
+      bool startDig()
+      {
+         if (!mine) return true;
+         state = EXPLOSION;
+         return false;
+      }
+
+      //! Continue to dig hole
+      bool continueDig()
+      {
+         if ((state != UNDUG) || mine) return false;
+         state = HOLE;
+         return true;
+      }
+
+      void reveal()
+      {
+         if(mine && (state != EXPLOSION))
+         {
+            state = HOLE;
+         }
+      }
+
+   private:
       State state;
       bool  mine;
    };
 
-   Progress progress;
+   Progress status;
    uint16_t number_of_mines;
    uint16_t number_of_flags;
    uint16_t number_of_holes;
@@ -212,11 +267,11 @@ private:
              (y >= 0) && (y < signed(HEIGHT));
    }
 
-   void checkForSuccess()
+   void checkIfCleared()
    {
       if((number_of_holes + number_of_mines - number_of_flags) == (WIDTH * HEIGHT))
       {
-         progress = SUCCESS;
+         status = CLEARED;
       }
    }
 
@@ -224,11 +279,8 @@ private:
    {
       if (!isValidPlot(x, y)) return;
 
-      Plot& plot = getPlot(x, y);
-
-      if((plot.state == UNDUG) && !plot.mine)
+      if(getPlot(x, y).continueDig())
       {
-         plot.state = HOLE;
          ++number_of_holes;
 
          if(getNumberOfAdjacentMines(x, y) == 0)
@@ -253,10 +305,7 @@ private:
       {
          for(auto& plot : column)
          {
-            if(plot.mine && (plot.state != EXPLOSION))
-            {
-               plot.state = HOLE;
-            }
+            plot.reveal();
          }
       }
    }

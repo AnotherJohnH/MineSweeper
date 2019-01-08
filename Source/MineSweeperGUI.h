@@ -115,10 +115,10 @@ private:
 
       switch(game.getProgress())
       {
-      case MineSweeper::READY:    gui_reset.text.setText(":-S"); break;
-      case MineSweeper::UNDERWAY: gui_reset.text.setText(":-|"); break;
-      case MineSweeper::FAIL:     gui_reset.text.setText(":-("); break;
-      case MineSweeper::SUCCESS:  gui_reset.text.setText(":-)"); break;
+      case MineSweeper::RESET:     gui_reset.text.setText(":-S"); break;
+      case MineSweeper::CLEARING:  gui_reset.text.setText(":-|"); break;
+      case MineSweeper::DETONATED: gui_reset.text.setText(":-("); break;
+      case MineSweeper::CLEARED:   gui_reset.text.setText(":-)"); break;
       }
 
       for(unsigned y = 0; y < GAME_ROWS; ++y)
