@@ -23,6 +23,9 @@
 #ifndef MINE_SWEEPER_GAME_H
 #define MINE_SWEEPER_GAME_H
 
+#include <algorithm>
+#include <array>
+#include <cassert>
 #include <cstdlib>
 
 namespace MineSweeper {
@@ -55,6 +58,7 @@ public:
       reset();
    }
 
+   //! Game state
    Progress getProgress() const { return progress; }
 
    //! Number of available flags
@@ -66,9 +70,9 @@ public:
    //! State of plot at the given location
    State getPlotState(unsigned x, unsigned y, bool& mine) const
    {
-      const Plot* p = getPlot(x, y);
-      mine          = p->mine;
-      return p->state;
+      const Plot& p = getPlot(x, y);
+      mine          = p.mine;
+      return p.state;
    }
 
    //! Total number of mines adjacent to the given location
@@ -76,12 +80,15 @@ public:
    {
       unsigned count = 0;
 
-      for(signed scan_y = y - 1; scan_y <= (y + 1); ++scan_y)
+      for(signed scan_y = std::max(y - 1, 0);
+          scan_y <= std::min(y + 1, signed(HEIGHT - 1));
+          ++scan_y)
       {
-         for(signed scan_x = x - 1; scan_x <= (x + 1); ++scan_x)
+         for(signed scan_x = std::max(x - 1, 0);
+             scan_x <= std::min(x + 1, signed(WIDTH - 1));
+             ++scan_x)
          {
-            const Plot* plot = getPlot(scan_x, scan_y);
-            if(plot && plot->mine) ++count;
+            if(getPlot(scan_x, scan_y).mine) ++count;
          }
       }
 
@@ -91,14 +98,12 @@ public:
    //! Reset ready for new game
    void reset()
    {
-      for(unsigned y = 0; y < HEIGHT; ++y)
+      for(auto& column : field)
       {
-         for(unsigned x = 0; x < WIDTH; ++x)
+         for(auto& plot : column)
          {
-            Plot* plot = getPlot(x, y);
-
-            plot->state = UNDUG;
-            plot->mine  = false;
+            plot.state = UNDUG;
+            plot.mine  = false;
          }
       }
 
@@ -107,14 +112,14 @@ public:
          unsigned x = rand() % WIDTH;
          unsigned y = rand() % HEIGHT;
 
-         Plot* plot = getPlot(x, y);
-         if(plot->mine)
+         Plot& plot = getPlot(x, y);
+         if(plot.mine)
          {
             --i;
          }
          else
          {
-            plot->mine = true;
+            plot.mine = true;
          }
       }
 
@@ -133,17 +138,17 @@ public:
          return;
       }
 
-      Plot* plot = getPlot(x, y);
-      if((plot->state == UNDUG) && (number_of_flags > 0))
+      Plot& plot = getPlot(x, y);
+      if((plot.state == UNDUG) && (number_of_flags > 0))
       {
-         plot->state = FLAG;
+         plot.state = FLAG;
          --number_of_flags;
 
          checkForSuccess();
       }
-      else if(plot->state == FLAG)
+      else if(plot.state == FLAG)
       {
-         plot->state = UNDUG;
+         plot.state = UNDUG;
          ++number_of_flags;
       }
    }
@@ -160,12 +165,12 @@ public:
          return;
       }
 
-      Plot* plot = getPlot(x, y);
-      if(plot->state != UNDUG) return;
+      Plot& plot = getPlot(x, y);
+      if(plot.state != UNDUG) return;
 
-      if(plot->mine)
+      if(plot.mine)
       {
-         plot->state = EXPLOSION;
+         plot.state = EXPLOSION;
          showMines();
          progress = FAIL;
       }
@@ -198,7 +203,14 @@ private:
    uint16_t number_of_flags;
    uint16_t number_of_holes;
    uint32_t number_of_ticks;
-   Plot     plot[WIDTH][HEIGHT];
+
+   std::array<std::array<Plot,HEIGHT>,WIDTH> field;
+
+   static bool isValidPlot(signed x, signed y)
+   {
+      return (x >= 0) && (x < signed(WIDTH)) &&
+             (y >= 0) && (y < signed(HEIGHT));
+   }
 
    void checkForSuccess()
    {
@@ -210,58 +222,57 @@ private:
 
    void tryDig(signed x, signed y)
    {
-      Plot* plot = getPlot(x, y);
-      if(plot)
+      if (!isValidPlot(x, y)) return;
+
+      Plot& plot = getPlot(x, y);
+
+      if((plot.state == UNDUG) && !plot.mine)
       {
-         if((plot->state == UNDUG) && !plot->mine)
+         plot.state = HOLE;
+         ++number_of_holes;
+
+         if(getNumberOfAdjacentMines(x, y) == 0)
          {
-            plot->state = HOLE;
-            ++number_of_holes;
+            tryDig(x - 1, y - 1);
+            tryDig(x,     y - 1);
+            tryDig(x + 1, y - 1);
 
-            if(getNumberOfAdjacentMines(x, y) == 0)
-            {
-               tryDig(x - 1, y - 1);
-               tryDig(x,     y - 1);
-               tryDig(x + 1, y - 1);
+            tryDig(x - 1, y);
+            tryDig(x + 1, y);
 
-               tryDig(x - 1, y);
-               tryDig(x + 1, y);
-
-               tryDig(x - 1, y + 1);
-               tryDig(x,     y + 1);
-               tryDig(x + 1, y + 1);
-            }
+            tryDig(x - 1, y + 1);
+            tryDig(x,     y + 1);
+            tryDig(x + 1, y + 1);
          }
       }
    }
 
    void showMines()
    {
-      for(unsigned y = 0; y < HEIGHT; ++y)
+      for(auto& column : field)
       {
-         for(unsigned x = 0; x < WIDTH; ++x)
+         for(auto& plot : column)
          {
-            Plot* plot = getPlot(x, y);
-            if(plot->mine && (plot->state != EXPLOSION))
+            if(plot.mine && (plot.state != EXPLOSION))
             {
-               plot->state = HOLE;
+               plot.state = HOLE;
             }
          }
       }
    }
 
-   Plot* getPlot(signed x, signed y)
+   Plot& getPlot(signed x, signed y)
    {
-      if((x < 0) || (x >= signed(WIDTH)) || (y < 0) || (y >= signed(HEIGHT))) return nullptr;
+      assert(isValidPlot(x, y));
 
-      return &plot[x][y];
+      return field[x][y];
    }
 
-   const Plot* getPlot(signed x, signed y) const
+   const Plot& getPlot(signed x, signed y) const
    {
-      if((x < 0) || (x >= signed(WIDTH)) || (y < 0) || (y >= signed(HEIGHT))) return nullptr;
+      assert(isValidPlot(x, y));
 
-      return &plot[x][y];
+      return field[x][y];
    }
 };
 
