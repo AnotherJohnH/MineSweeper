@@ -8,7 +8,11 @@ version = '0.0.1'
 env,libs = SConscript('Platform/build.scons', ['app', 'version'])
 
 # Project specific build config
-env.Append(CCFLAGS = ['-O3'])
+debug = ARGUMENTS.get('debug', 0)
+if int(debug) == 0:
+   env.Append(CCFLAGS = ['-O3', '-DNDEBUG'])
+else:
+   env.Append(CCFLAGS = ['-O0', '-g'])
 
 # Builders
 exe = env.Program(binary, source + env['startup'])
