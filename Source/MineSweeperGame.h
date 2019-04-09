@@ -157,17 +157,18 @@ public:
          return;
       }
 
-      if(!plot.isUndug()) return;
-
-      if(plot.startDig())
+      if(plot.isUndug())
       {
-         tryDig(x, y);
-         checkIfCleared();
-      }
-      else
-      {
-         showMines();
-         status = DETONATED;
+         if(plot.startDig())
+         {
+            tryDig(x, y);
+            checkIfCleared();
+         }
+         else
+         {
+            showMines();
+            status = DETONATED;
+         }
       }
    }
 
@@ -227,6 +228,8 @@ private:
       //! Start to Dig a hole
       bool startDig()
       {
+         assert(isUndug());
+
          if (!mine) return true;
          state = EXPLOSION;
          return false;
