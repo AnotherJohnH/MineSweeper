@@ -26,7 +26,7 @@
 #include <cassert>
 
 #include "GUI/Font/Teletext.h"
-#include "GUI/App.h"
+#include "GUI/GUI.h"
 
 #include "LEDDisplay.h"
 #include "MineSweeperGame.h"
@@ -57,11 +57,11 @@ private:
    static const unsigned EV_TICK  = 3;
 
    // GUI components
-   GUI::Row         gui_menu;
+   GUI::Row         gui_menu{this};
    GUI::TextButton  gui_help;
-   GUI::Bar         gui_bar;
-   GUI::Row         gui_top;
-   GUI::Col         gui_btm;
+   GUI::Bar         gui_bar{this};
+   GUI::Row         gui_top{this, 8};
+   GUI::Col         gui_btm{this, 0};
    LEDDisplay       gui_flags;
    GUI::TextButton  gui_reset;
    LEDDisplay       gui_time;
@@ -190,11 +190,7 @@ private:
 public:
    MineSweeperGUI(unsigned num_mines)
       : GUI::App("Mine Sweeper", &GUI::font_teletext15)
-      , gui_menu(this)
       , gui_help(&gui_menu, EV_HELP, "Help")
-      , gui_bar(this)
-      , gui_top(this, 8)
-      , gui_btm(this, 0)
       , gui_flags(&gui_top, 3)
       , gui_reset(&gui_top, EV_RESET, " X ")
       , gui_time(&gui_top, 3)
