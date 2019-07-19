@@ -1,6 +1,6 @@
 
 set(source  Source/mines.cpp)
-set(binary  minesweeper)
+set(binary  mines)
 set(app     MineSweeper)
 set(version 0.0.1)
 
