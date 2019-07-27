@@ -30,6 +30,7 @@
 
 namespace MineSweeper {
 
+//! Overall game state
 enum Progress : uint8_t
 {
    RESET,
@@ -38,6 +39,7 @@ enum Progress : uint8_t
    CLEARED
 };
 
+//! State of a singel plot of land
 enum State : uint8_t
 {
    UNDUG,
@@ -45,7 +47,6 @@ enum State : uint8_t
    HOLE,
    EXPLOSION
 };
-
 
 //! Mine sweeper game
 template <unsigned WIDTH, unsigned HEIGHT>
