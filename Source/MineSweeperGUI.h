@@ -57,19 +57,19 @@ private:
    static const unsigned EV_TICK  = 3;
 
    // GUI components
-   GUI::Row         gui_menu{this};
-   GUI::TextButton  gui_help{&gui_menu, EV_HELP, "Help"};
-   GUI::Bar         gui_bar{this};
-   GUI::Row         gui_top{this, 8};
-   LEDDisplay       gui_flags{&gui_top, 3};
-   GUI::TextButton  gui_reset{&gui_top, EV_RESET, " X "};
-   LEDDisplay       gui_time{&gui_top, 3};
-   GUI::Col         gui_btm{this, 0};
-   GUI::Row         gui_row[GAME_ROWS];
-   GUI::TextButton  gui_btn[GAME_COLS][GAME_ROWS];
+   GUI::Row        gui_menu{this};
+   GUI::TextButton gui_help{&gui_menu, EV_HELP, "Help"};
+   GUI::Bar        gui_bar{this};
+   GUI::Row        gui_top{this, 8};
+   LEDDisplay      gui_flags{&gui_top, 3};
+   GUI::TextButton gui_reset{&gui_top, EV_RESET, " X "};
+   LEDDisplay      gui_time{&gui_top, 3};
+   GUI::Col        gui_btm{this, 0};
+   GUI::Row        gui_row[GAME_ROWS];
+   GUI::TextButton gui_btn[GAME_COLS][GAME_ROWS];
 
-   char             text_flags[4];
-   char             text_time[4];
+   char text_flags[4];
+   char text_time[4];
 
    // Game state
    MineSweeper::Game<GAME_COLS, GAME_ROWS> game;

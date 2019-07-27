@@ -109,7 +109,7 @@ public:
          unsigned x = rand() % WIDTH;
          unsigned y = rand() % HEIGHT;
 
-         if(getPlot(x,y).plantMine())
+         if(getPlot(x, y).plantMine())
          {
             planted++;
          }
@@ -118,7 +118,7 @@ public:
       number_of_flags = number_of_mines;
       number_of_holes = 0;
       number_of_ticks = 0;
-      status        = RESET;
+      status          = RESET;
    }
 
    //! Plant or unplant a flag in an undug plot
@@ -129,7 +129,7 @@ public:
          return;
       }
 
-      if (getPlot(x, y).toggleFlag(number_of_flags))
+      if(getPlot(x, y).toggleFlag(number_of_flags))
       {
          checkIfCleared();
       }
@@ -185,8 +185,8 @@ private:
    class Plot
    {
    public:
-      bool  isUndug() const { return state == UNDUG; }
-      bool  isMined() const { return mine; }
+      bool isUndug() const { return state == UNDUG; }
+      bool isMined() const { return mine; }
 
       State getState(bool& mine_) const
       {
@@ -204,7 +204,7 @@ private:
       //! Plant a mine
       bool plantMine()
       {
-         if (mine) return false;
+         if(mine) return false;
          mine = true;
          return true;
       }
@@ -230,7 +230,7 @@ private:
       {
          assert(isUndug());
 
-         if (!mine) return true;
+         if(!mine) return true;
          state = EXPLOSION;
          return false;
       }
@@ -238,7 +238,7 @@ private:
       //! Continue to dig hole
       bool continueDig()
       {
-         if ((state != UNDUG) || mine) return false;
+         if((state != UNDUG) || mine) return false;
          state = HOLE;
          return true;
       }
@@ -262,7 +262,7 @@ private:
    uint16_t number_of_holes;
    uint32_t number_of_ticks;
 
-   std::array<std::array<Plot,HEIGHT>,WIDTH> field;
+   std::array<std::array<Plot, HEIGHT>, WIDTH> field;
 
    static bool isValidPlot(signed x, signed y)
    {
@@ -280,7 +280,7 @@ private:
 
    void tryDig(signed x, signed y)
    {
-      if (!isValidPlot(x, y)) return;
+      if(!isValidPlot(x, y)) return;
 
       if(getPlot(x, y).continueDig())
       {
@@ -328,6 +328,6 @@ private:
    }
 };
 
-} // MineSweeper
+} // namespace MineSweeper
 
 #endif
