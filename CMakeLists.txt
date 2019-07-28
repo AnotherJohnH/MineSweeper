@@ -27,6 +27,8 @@ set(binary      mines)
 set(source      Source/mines.cpp)
 
 set(test_source Source/test/testMineSweeperGame.cpp
+                Source/test/testMineSweeperGUI.cpp
+                Source/test/testMineSweeperPlot.cpp
                 Source/test/testMain.cpp)
 
 #-------------------------------------------------------------------------------

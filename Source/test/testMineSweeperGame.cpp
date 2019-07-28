@@ -28,7 +28,7 @@ static const size_t WIDTH  = 10;
 static const size_t HEIGHT = 10;
 static const size_t MINES  = 10;
 
-TEST(MineSweeperGame, initial_state)
+TEST(MineSweeperGame, constructor)
 {
    MineSweeper::Game<WIDTH,HEIGHT>  game{/* num_of_mines */ MINES};
 

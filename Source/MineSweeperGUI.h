@@ -103,7 +103,6 @@ private:
       refresh();
    }
 
-
    //! Refresh the GUI state
    void refresh()
    {

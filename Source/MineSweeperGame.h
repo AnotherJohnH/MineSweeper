@@ -23,10 +23,10 @@
 #ifndef MINE_SWEEPER_GAME_H
 #define MINE_SWEEPER_GAME_H
 
-#include <algorithm>
 #include <array>
 #include <cassert>
-#include <cstdlib>
+
+#include "MineSweeperPlot.h"
 
 namespace MineSweeper {
 
@@ -37,15 +37,6 @@ enum Progress : uint8_t
    CLEARING,
    DETONATED,
    CLEARED
-};
-
-//! State of a singel plot of land
-enum State : uint8_t
-{
-   UNDUG,
-   FLAG,
-   HOLE,
-   EXPLOSION
 };
 
 //! Mine sweeper game
@@ -60,7 +51,7 @@ public:
    }
 
    //! Return current game state
-   Progress getProgress() const { return status; }
+   Progress getProgress() const { return progress; }
 
    //! Number of available flags
    unsigned getNumberOfFlags() const { return number_of_flags; }
@@ -119,13 +110,13 @@ public:
       number_of_flags = number_of_mines;
       number_of_holes = 0;
       number_of_ticks = 0;
-      status          = RESET;
+      progress        = RESET;
    }
 
    //! Plant or unplant a flag in an undug plot
    void plantUnplantFlag(unsigned x, unsigned y)
    {
-      if(status != CLEARING)
+      if(progress != CLEARING)
       {
          return;
       }
@@ -141,7 +132,7 @@ public:
    {
       Plot& plot = getPlot(x, y);
 
-      if(status == RESET)
+      if(progress == RESET)
       {
          while(!plot.startDig())
          {
@@ -150,10 +141,10 @@ public:
          }
 
          tryDig(x, y);
-         status = CLEARING;
+         progress = CLEARING;
          return;
       }
-      else if(status != CLEARING)
+      else if(progress != CLEARING)
       {
          return;
       }
@@ -168,7 +159,7 @@ public:
          else
          {
             showMines();
-            status = DETONATED;
+            progress = DETONATED;
          }
       }
    }
@@ -176,88 +167,14 @@ public:
    //! Increment game timer
    void tick()
    {
-      if(status == CLEARING)
+      if(progress == CLEARING)
       {
          ++number_of_ticks;
       }
    }
 
 private:
-   class Plot
-   {
-   public:
-      bool isUndug() const { return state == UNDUG; }
-      bool isMined() const { return mine; }
-
-      State getState(bool& mine_) const
-      {
-         mine_ = mine;
-         return state;
-      }
-
-      //! Reset plot of land to undug and empty
-      void reset()
-      {
-         state = UNDUG;
-         mine  = false;
-      }
-
-      //! Plant a mine
-      bool plantMine()
-      {
-         if(mine) return false;
-         mine = true;
-         return true;
-      }
-
-      //! Toggle flag
-      bool toggleFlag(uint16_t& number_of_flags)
-      {
-         if((state == UNDUG) && (number_of_flags > 0))
-         {
-            state = FLAG;
-            --number_of_flags;
-         }
-         else if(state == FLAG)
-         {
-            state = UNDUG;
-            ++number_of_flags;
-         }
-         return state == FLAG;
-      }
-
-      //! Start to Dig a hole
-      bool startDig()
-      {
-         assert(isUndug());
-
-         if(!mine) return true;
-         state = EXPLOSION;
-         return false;
-      }
-
-      //! Continue to dig hole
-      bool continueDig()
-      {
-         if((state != UNDUG) || mine) return false;
-         state = HOLE;
-         return true;
-      }
-
-      void reveal()
-      {
-         if(mine && (state != EXPLOSION))
-         {
-            state = HOLE;
-         }
-      }
-
-   private:
-      State state;
-      bool  mine;
-   };
-
-   Progress status;
+   Progress progress;
    uint16_t number_of_mines;
    uint16_t number_of_flags;
    uint16_t number_of_holes;
@@ -275,7 +192,7 @@ private:
    {
       if((number_of_holes + number_of_mines - number_of_flags) == (WIDTH * HEIGHT))
       {
-         status = CLEARED;
+         progress = CLEARED;
       }
    }
 
