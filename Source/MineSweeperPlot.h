@@ -24,6 +24,7 @@
 #define MINE_SWEEPER_PLOT_H
 
 #include <cassert>
+#include <cstdint>
 
 namespace MineSweeper {
 
