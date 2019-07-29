@@ -21,10 +21,11 @@
 #-------------------------------------------------------------------------------
 
 set(app         MineSweeper)
+set(author      "John D. Haughton")
 set(version     0.0.1)
-set(binary      mines)
 
 set(source      Source/mines.cpp)
+set(binary      mines)
 
 set(test_source Source/test/testMineSweeperGame.cpp
                 Source/test/testMineSweeperGUI.cpp
@@ -39,3 +40,5 @@ include(Platform/build.cmake NO_POLICY_SCOPE)
 
 add_executable(${binary} ${source})
 target_link_libraries(${binary} ${PLT_libs})
+
+install(TARGETS ${binary} RUNTIME DESTINATION bin)
