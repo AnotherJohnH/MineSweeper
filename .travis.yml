@@ -20,7 +20,7 @@ compiler:
    - gcc
 
 matrix:
-   excluse:
+   exclude:
    - os: linux
      compiler: clang
    - os: osx
