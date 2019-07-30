@@ -27,9 +27,9 @@
 #include "MineSweeperGUI.h"
 
 
-#define  PROGRAM         "Mine Sweeper"
+#define  PROGRAM         "MineSweeper"
 #define  DESCRIPTION     "An old game"
-#define  LINK            "https://github.com/AnotherJohnH/Platform"
+#define  LINK            "https://github.com/AnotherJohnH/MineSweeper"
 #define  AUTHOR          "John D. Haughton"
 #define  COPYRIGHT_YEAR  "2016"
 

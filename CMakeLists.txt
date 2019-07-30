@@ -22,7 +22,7 @@
 
 set(app         MineSweeper)
 set(author      "John D. Haughton")
-set(version     0.0.1)
+set(version     0.1.0)
 
 set(source      Source/mines.cpp)
 set(binary      mines)
