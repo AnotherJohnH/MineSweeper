@@ -36,6 +36,12 @@
 
 class MineSweeperApp : public STB::ConsoleApp
 {
+public:
+   MineSweeperApp()
+      : ConsoleApp(PROGRAM, DESCRIPTION, LINK, AUTHOR, COPYRIGHT_YEAR)
+   {
+   }
+
 private:
    STB::Option<uint32_t> level{'l', "level", "Level of difficulty 1..3", 1};
 
@@ -51,19 +57,12 @@ private:
 #endif
       }
 
-      return 0;
-   }
-
-public:
-   MineSweeperApp(int argc, const char* argv[])
-      : ConsoleApp(PROGRAM, DESCRIPTION, LINK, AUTHOR, COPYRIGHT_YEAR)
-   {
-      parseArgsAndStart(argc, argv);
+      return 1;
    }
 };
 
 
 int main(int argc, const char* argv[])
 {
-   MineSweeperApp(argc, argv);
+   return MineSweeperApp().parseArgsAndStart(argc, argv);
 }
