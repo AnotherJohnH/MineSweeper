@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-#  Copyright (c) 2019 John D. Haughton
+#  Copyright (c) YEAR AUTHOR
 #
 #  Permission is hereby granted, free of charge, to any person obtaining a copy
 #  of this software and associated documentation files (the "Software"), to deal
@@ -20,12 +20,17 @@
 #  SOFTWARE.
 #-------------------------------------------------------------------------------
 
-set(app         MineSweeper)
-set(author      "John D. Haughton")
-set(version     0.1.0)
+cmake_minimum_required(VERSION 3.11.4)
+cmake_policy(SET CMP0048 NEW) # Humph! don't like having to do this
 
-set(source      Source/mines.cpp)
-set(binary      mines)
+project(MineSweeper
+        VERSION   0.1.0
+        LANGUAGES C CXX ASM)
+
+set(author  John D. Haughton)
+
+set(source  Source/mines.cpp)
+set(binary  mines)
 
 set(test_source Source/test/testMineSweeperGame.cpp
                 Source/test/testMineSweeperGUI.cpp
@@ -33,7 +38,6 @@ set(test_source Source/test/testMineSweeperGame.cpp
 
 #-------------------------------------------------------------------------------
 
-cmake_minimum_required(VERSION 3.11.4)
 include(Platform/build.cmake NO_POLICY_SCOPE)
 
 #-------------------------------------------------------------------------------
