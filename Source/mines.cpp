@@ -20,19 +20,15 @@
 // SOFTWARE.
 //------------------------------------------------------------------------------
 
-#include <cstdio>
-
 #include "STB/ConsoleApp.h"
 
 #include "MineSweeperGUI.h"
 
-
-#define  PROGRAM         "MineSweeper"
-#define  DESCRIPTION     "An old game"
-#define  LINK            "https://github.com/AnotherJohnH/MineSweeper"
-#define  AUTHOR          "John D. Haughton"
-#define  COPYRIGHT_YEAR  "2016"
-
+static const char* PROGRAM        = "MineSweeper";
+static const char* DESCRIPTION    = "An old game";
+static const char* LINK           = "https://github.com/AnotherJohnH/MineSweeper";
+static const char* AUTHOR         = "John D. Haughton";
+static const char* COPYRIGHT_YEAR = "2016";
 
 class MineSweeperApp : public STB::ConsoleApp
 {
@@ -43,8 +39,6 @@ public:
    }
 
 private:
-   STB::Option<uint32_t> level{'l', "level", "Level of difficulty 1..3", 1};
-
    virtual int startConsoleApp() override
    {
       switch(level)
@@ -59,6 +53,8 @@ private:
 
       return 1;
    }
+
+   STB::Option<uint32_t> level{'l', "level", "Level of difficulty 1..3", 1};
 };
 
 
