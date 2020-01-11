@@ -28,7 +28,7 @@
 
 namespace MineSweeper {
 
-//! Visible state of a square element of land
+//! Visible state of a square plot of land
 enum State : uint8_t
 {
    UNDUG,
@@ -105,6 +105,7 @@ public:
       return true;
    }
 
+   //!
    void reveal()
    {
       if(mine && (state != EXPLOSION))
