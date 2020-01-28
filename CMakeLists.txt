@@ -28,7 +28,7 @@ project(MineSweeper
 
 set(author  John D. Haughton)
 
-set(source  Source/mines.cpp Source/metal_mines.cpp)
+set(source  Source/mines.cpp)
 set(binary  mines)
 
 set(test_source Source/test/testMineSweeperGame.cpp
