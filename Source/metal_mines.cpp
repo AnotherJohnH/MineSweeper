@@ -20,44 +20,13 @@
 // SOFTWARE.
 //------------------------------------------------------------------------------
 
-#include "STB/ConsoleApp.h"
+#include "MTL/Metal.h"
 
-#include "MineSweeperGUI.h"
-
-static const char* PROGRAM        = "MineSweeper";
-static const char* DESCRIPTION    = "An old game";
-static const char* LINK           = "https://github.com/AnotherJohnH/MineSweeper";
-static const char* AUTHOR         = "John D. Haughton";
-static const char* COPYRIGHT_YEAR = "2016";
-
-class MineSweeperApp : public STB::ConsoleApp
+int mtlMain()
 {
-public:
-   MineSweeperApp()
-      : ConsoleApp(PROGRAM, DESCRIPTION, LINK, AUTHOR, COPYRIGHT_YEAR)
-   {
-   }
+   extern int main(int, const char*[]);
 
-private:
-   virtual int startConsoleApp() override
-   {
-      switch(level)
-      {
-      case 1: return MineSweeperGUI<9, 9>(10).eventLoop();
-#if !defined(SMALL_MEMORY)
-// Space on the stack will be allocated for the largest game
-      case 2: return MineSweeperGUI<16, 16>(40).eventLoop();
-      case 3: return MineSweeperGUI<30, 16>(99).eventLoop();
-#endif
-      }
+   const char* argv[1] = {"mines"};;
 
-      return 1;
-   }
-
-   STB::Option<uint32_t> level{'l', "level", "Level of difficulty 1..3", 1};
-};
-
-int main(int argc, const char* argv[])
-{
-   return MineSweeperApp().parseArgsAndStart(argc, argv);
+   return main(1, argv);
 }
