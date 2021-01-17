@@ -22,11 +22,16 @@
 
 cmake_minimum_required(VERSION 3.11.4)
 
+set(CMAKE_PROJECT_VERSION "0.1.0")
+
+include(Platform/build.cmake NO_POLICY_SCOPE)
+
+#-------------------------------------------------------------------------------
+
 project(MineSweeper
-        VERSION   0.1.0
         LANGUAGES C CXX ASM)
 
-set(author  John D. Haughton)
+set(author  "John D. Haughton")
 
 set(source  Source/mines.cpp)
 set(binary  mines)
@@ -34,10 +39,6 @@ set(binary  mines)
 set(test_source Source/test/testMineSweeperGame.cpp
                 Source/test/testMineSweeperGUI.cpp
                 Source/test/testMineSweeperPlot.cpp)
-
-#-------------------------------------------------------------------------------
-
-include(Platform/build.cmake NO_POLICY_SCOPE)
 
 #-------------------------------------------------------------------------------
 

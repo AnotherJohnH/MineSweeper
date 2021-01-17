@@ -44,7 +44,7 @@ private:
       switch(level)
       {
       case 1: return MineSweeperGUI<9, 9>(10).eventLoop();
-#if !defined(SMALL_MEMORY)
+#if !defined(PLT_SMALL_MEMORY)
 // Space on the stack will be allocated for the largest game
       case 2: return MineSweeperGUI<16, 16>(40).eventLoop();
       case 3: return MineSweeperGUI<30, 16>(99).eventLoop();
