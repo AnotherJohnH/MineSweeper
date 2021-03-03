@@ -7,7 +7,7 @@ Try a browser hosted version of the application [here](https://anotherjohnh.gith
 
 ## Status
 
-[![Build Status](https://travis-ci.org/AnotherJohnH/MineSweeper.svg?branch=master)](https://travis-ci.org/AnotherJohnH/MineSweeper)
+[![Build Status](https://github.com/AnotherJohnH/MineSweeper/actions/workflows/build_on_push.yml/badge.svg)](https://github.com/AnotherJohnH/MineSweeper/actions/workflows/build_on_push.yml)
 [![Coverity Scan Build Status](https://scan.coverity.com/projects/13949/badge.svg)](https://scan.coverity.com/projects/anotherjohnh-minesweeper)
 
 ## Portability and style
