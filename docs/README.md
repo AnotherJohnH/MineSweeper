@@ -3,7 +3,7 @@
 A game from the past. This version is intended as an example of the use of the
 [Platform](https://github.com/AnotherJohnH/Platform) GUI C++ API.
 
-Try a browser hosted version of the application [here](https://anotherjohnh.github.io/MineSweeper/Emscripten/mines.html)
+Try a browser hosted version of the application [here](https://anotherjohnh.github.io/MineSweeper/mines.html)
 
 ## Status
 

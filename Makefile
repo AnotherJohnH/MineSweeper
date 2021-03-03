@@ -1,31 +1,14 @@
 
-EXECUTABLE = mines
+targets = native Emscripten microbitV2
 
-#-------------------------------------------------------------------------------
+.PHONY: all
+all: $(targets)
 
-all: native Emscripten
-
-clean:
-	rm -rf build_*
-
-debug:
-	Platform/BUILD.py native -s -d
-
-#-------------------------------------------------------------------------------
-
+.PHONY: docs
 docs: Emscripten
-	cp build_Emscripten/mines.html docs/Emscripten
-	cp build_Emscripten/mines.js   docs/Emscripten
-	cp build_Emscripten/mines.wasm docs/Emscripten
+	cp build_Emscripten/mines.html docs
+	cp build_Emscripten/mines.js   docs
+	cp build_Emscripten/mines.wasm docs
 	doxygen
 
-#-------------------------------------------------------------------------------
-
-native:
-	Platform/BUILD.py native
-
-Emscripten:
-	Platform/BUILD.py Emscripten
-
-mbedLPC1768:
-	Platform/BUILD.py mbedLPC1768
+include Platform/build.make
