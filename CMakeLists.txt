@@ -36,9 +36,9 @@ set(author  "John D. Haughton")
 set(source  Source/mines.cpp)
 set(binary  mines)
 
-set(test_source Source/test/testMineSweeperGame.cpp
-                Source/test/testMineSweeperGUI.cpp
-                Source/test/testMineSweeperPlot.cpp)
+addGTest(Source/test/testMineSweeperGame.cpp
+         Source/test/testMineSweeperGUI.cpp
+         Source/test/testMineSweeperPlot.cpp)
 
 #-------------------------------------------------------------------------------
 

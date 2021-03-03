@@ -15,9 +15,15 @@ Try a browser hosted version of the application [here](https://anotherjohnh.gith
 See the [Platform](https://github.com/AnotherJohnH/Platform) project for supported platforms
 and coding style.
 
+## Build Dependencies
+
++ SDL2
++ cmake
++ C++11 compiler
+
 ## How to build
 
-Build using cmake.
+Build using cmake...
 
 ```
 mkdir build_native
