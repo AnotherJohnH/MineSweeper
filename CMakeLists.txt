@@ -22,14 +22,13 @@
 
 cmake_minimum_required(VERSION 3.11.4)
 
-set(CMAKE_PROJECT_VERSION "0.1.0")
+project(MineSweeper
+        VERSION   0.1.0
+        LANGUAGES C CXX ASM)
 
 include(Platform/build.cmake NO_POLICY_SCOPE)
 
 #-------------------------------------------------------------------------------
-
-project(MineSweeper
-        LANGUAGES C CXX ASM)
 
 set(author  "John D. Haughton")
 
