@@ -106,10 +106,10 @@ private:
    //! Refresh the GUI state
    void refresh()
    {
-      sprintf(text_flags, "%3d", game.getNumberOfFlags());
+      snprintf(text_flags, sizeof(text_flags), "%3d", game.getNumberOfFlags());
       gui_flags.setText(text_flags);
 
-      sprintf(text_time, "%3d", game.getNumberOfTicks());
+      snprintf(text_time, sizeof(text_time), "%3d", game.getNumberOfTicks());
       gui_time.setText(text_time);
 
       switch(game.getProgress())
