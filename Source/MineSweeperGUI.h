@@ -68,8 +68,8 @@ private:
    GUI::Row        gui_row[GAME_ROWS];
    GUI::TextButton gui_btn[GAME_COLS][GAME_ROWS];
 
-   char text_flags[4];
-   char text_time[4];
+   char text_flags[8];
+   char text_time[8];
 
    // Game state
    MineSweeper::Game<GAME_COLS, GAME_ROWS> game;
