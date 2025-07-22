@@ -22,7 +22,7 @@
 
 #include "../MineSweeperPlot.h"
 
-#include "gtest/gtest.h"
+#include "STB/Test.h"
 
 TEST(MineSweeperPlot, constructor)
 {

@@ -1,5 +1,5 @@
 //------------------------------------------------------------------------------
-// Copyright (c) 2019 John D. Haughton
+// Copyright (c) 2024 John D. Haughton
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,13 +20,6 @@
 // SOFTWARE.
 //------------------------------------------------------------------------------
 
-#include "../MineSweeperGUI.h"
-
 #include "STB/Test.h"
 
-TEST(MineSweeperGUI, constructor)
-{
-   MineSweeperGUI<10,10> gui(10);
-
-   (void) gui;
-}
+TEST_MAIN

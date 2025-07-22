@@ -22,7 +22,7 @@
 
 #include "../MineSweeperGame.h"
 
-#include "gtest/gtest.h"
+#include "STB/Test.h"
 
 static const size_t WIDTH  = 10;
 static const size_t HEIGHT = 10;
