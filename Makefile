@@ -7,9 +7,8 @@ all: $(targets)
 
 .PHONY: docs
 docs: Emscripten
-	cp build_Emscripten/mines.html docs
-	cp build_Emscripten/mines.js   docs
-	cp build_Emscripten/mines.wasm docs
-	doxygen
+	cp build/Emscripten/mines.html docs
+	cp build/Emscripten/mines.js   docs
+	cp build/Emscripten/mines.wasm docs
 
 include Platform/build.make

@@ -20,19 +20,17 @@
 #  SOFTWARE.
 #-------------------------------------------------------------------------------
 
-cmake_minimum_required(VERSION 3.11.4)
+cmake_minimum_required(VERSION 3.20)
 
 project(MineSweeper
-        LANGUAGES C CXX ASM
-        VERSION   0.1.0)
+        LANGUAGES CXX
+        VERSION   0.2)
 
 add_subdirectory(Platform)
 
 add_executable(mines Source/mines.cpp)
 
-target_link_libraries(mines GUI STB PLT)
-
-install(TARGETS mines RUNTIME DESTINATION bin)
+target_link_libraries(mines GUI)
 
 #-------------------------------------------------------------------------------
 # Build test
