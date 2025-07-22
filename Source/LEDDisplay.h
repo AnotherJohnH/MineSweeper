@@ -20,8 +20,7 @@
 // SOFTWARE.
 //------------------------------------------------------------------------------
 
-#ifndef LED_DISPLAY_H
-#define LED_DISPLAY_H
+#pragma once
 
 #include "GUI/Font/LED.h"
 #include "GUI/GUI.h"
@@ -47,5 +46,3 @@ private:
       size.y += 4;
    }
 };
-
-#endif

@@ -20,8 +20,7 @@
 // SOFTWARE.
 //------------------------------------------------------------------------------
 
-#ifndef MINE_SWEEPER_GAME_H
-#define MINE_SWEEPER_GAME_H
+#pragma once
 
 #include <array>
 #include <cassert>
@@ -174,14 +173,6 @@ public:
    }
 
 private:
-   Progress progress;
-   uint16_t number_of_mines;
-   uint16_t number_of_flags;
-   uint16_t number_of_holes;
-   uint32_t number_of_ticks;
-
-   std::array<std::array<Plot, HEIGHT>, WIDTH> field;
-
    static bool isValidPlot(signed x, signed y)
    {
       return (x >= 0) && (x < signed(WIDTH)) &&
@@ -244,8 +235,14 @@ private:
 
       return field[x][y];
    }
+
+   Progress progress;
+   uint16_t number_of_mines;
+   uint16_t number_of_flags;
+   uint16_t number_of_holes;
+   uint32_t number_of_ticks;
+
+   std::array<std::array<Plot, HEIGHT>, WIDTH> field;
 };
 
 } // namespace MineSweeper
-
-#endif

@@ -20,8 +20,7 @@
 // SOFTWARE.
 //------------------------------------------------------------------------------
 
-#ifndef MINE_SWEEPER_PLOT_H
-#define MINE_SWEEPER_PLOT_H
+#pragma once
 
 #include <cassert>
 #include <cstdint>
@@ -120,5 +119,3 @@ private:
 };
 
 } // namespace MineSweeper
-
-#endif
