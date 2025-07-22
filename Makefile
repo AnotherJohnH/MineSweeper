@@ -1,5 +1,6 @@
 
-targets = native Emscripten microbitV2
+targets = native
+# Emscripten microbitV2
 
 .PHONY: all
 all: $(targets)

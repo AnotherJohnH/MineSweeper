@@ -209,6 +209,7 @@ public:
             gui_row[y].pushBack(b);
 
             b->setCode(EV_DIG | code);
+            b->setBorderAndGap(4);
             b->setAltCode(false, EV_FLAG | code);
             b->text.setText(" ");
             b->text.setCols(2);

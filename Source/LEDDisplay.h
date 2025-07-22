@@ -28,15 +28,6 @@
 
 class LEDDisplay : public GUI::Text
 {
-private:
-   virtual void eventSize() override
-   {
-      GUI::Text::eventSize();
-
-      size.x += 4;
-      size.y += 4;
-   }
-
 public:
    LEDDisplay(GUI::Widget* parent, unsigned cols)
       : GUI::Text(parent, "")
@@ -45,6 +36,15 @@ public:
       setFont(&GUI::font_led22);
       setBackgroundColour(0x400000);
       setForegroundColour(0xFF0000);
+   }
+
+private:
+   virtual void eventLayout() override
+   {
+      GUI::Text::eventLayout();
+
+      size.x += 4;
+      size.y += 4;
    }
 };
 

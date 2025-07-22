@@ -23,25 +23,21 @@
 cmake_minimum_required(VERSION 3.11.4)
 
 project(MineSweeper
-        VERSION   0.1.0
-        LANGUAGES C CXX ASM)
+        LANGUAGES C CXX ASM
+        VERSION   0.1.0)
 
-include(Platform/build.cmake NO_POLICY_SCOPE)
+add_subdirectory(Platform)
 
-#-------------------------------------------------------------------------------
+add_executable(mines Source/mines.cpp)
 
-set(author  "John D. Haughton")
+target_link_libraries(mines GUI STB PLT)
 
-set(source  Source/mines.cpp)
-set(binary  mines)
-
-addGTest(Source/test/testMineSweeperGame.cpp
-         Source/test/testMineSweeperGUI.cpp
-         Source/test/testMineSweeperPlot.cpp)
+install(TARGETS mines RUNTIME DESTINATION bin)
 
 #-------------------------------------------------------------------------------
+# Build test
 
-add_executable(${binary} ${source})
-target_link_libraries(${binary} ${PLT_libs})
+#addGTest(Source/test/testMineSweeperGame.cpp
+#         Source/test/testMineSweeperGUI.cpp
+#         Source/test/testMineSweeperPlot.cpp)
 
-install(TARGETS ${binary} RUNTIME DESTINATION bin)
